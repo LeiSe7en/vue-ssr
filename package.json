@@ -1,0 +1,26 @@
+{
+  "name": "vue-ssr",
+  "version": "1.0.0",
+  "description": "Vue Server side render demo",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/LeiSe7en/vue-ssr.git"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "author": "Nelson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeiSe7en/vue-ssr/issues"
+  },
+  "homepage": "https://github.com/LeiSe7en/vue-ssr#readme",
+  "dependencies": {
+    "vue": "^2.6.11",
+    "vue-server-renderer": "^2.6.11"
+  }
+}
