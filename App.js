@@ -12,5 +12,8 @@ export default {
   },
   render (h) {
     return h('div', [h('div', 'I am Nelson')])
+  },
+  asyncData ({ store, router }) {
+    console.log('asyncData')
   }
 }
