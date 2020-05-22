@@ -17,7 +17,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'public': path.resolve(__dirname, '../public')
+      '@': path.join(__dirname, '..', 'src')
     }
   },
   module: {

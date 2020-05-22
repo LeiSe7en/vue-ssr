@@ -17,6 +17,8 @@ module.exports = merge(baseConfig, {
     whitelist: /\.css$/
   }),
 	plugins: [
+		// 这个是Vue的自定义webpack组件，这个组件生成一个.json文件，这个文件是配合createBundleRenderer
+		// 使用的
     new VueSSRServerPlugin()
   ]
 })

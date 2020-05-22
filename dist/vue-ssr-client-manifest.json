@@ -1,37 +1,40 @@
 {
   "publicPath": "/dist/",
   "all": [
-    "main.658994f2b58b7fd72508.js",
+    "main.000bdccb9f5ea655b0ad.js",
     "manifest.99e6afc21817c9299606.js"
   ],
   "initial": [
     "manifest.99e6afc21817c9299606.js",
-    "main.658994f2b58b7fd72508.js"
+    "main.000bdccb9f5ea655b0ad.js"
   ],
   "async": [],
   "modules": {
-    "6ee99a40": [
-      0
-    ],
     "7d0accc5": [
       0
     ],
-    "6162061e": [
-      0
-    ],
-    "590d78b0": [
-      0
-    ],
-    "bfd19260": [
+    "6ee99a40": [
       0
     ],
     "b087b980": [
+      0
+    ],
+    "6162061e": [
       0
     ],
     "757ea8a8": [
       0
     ],
     "0a3fc17e": [
+      0
+    ],
+    "7d8838d4": [
+      0
+    ],
+    "7d1ae492": [
+      0
+    ],
+    "1959f07a": [
       0
     ]
   }

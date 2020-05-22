@@ -3,7 +3,7 @@ import App from './App.js'
 import { createRouter } from './src/router'
 import { createStore } from './src/store'
 import { sync } from 'vuex-router-sync'
-module.exports = function (context) {
+export function createApp (context) {
 	const router = createRouter()
 	const store = createStore()
 	sync(store, router)

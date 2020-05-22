@@ -1,6 +1,9 @@
-const createApp = require('./createApp')
+import {createApp} from './createApp'
 
 
-const { app } = createApp()
-
-app.$mount('#app')
+const { app, router } = createApp()
+console.log('dsdsdsdsdsdsdsdsd')
+router.onReady(() => {
+	
+  app.$mount('#app')
+})
