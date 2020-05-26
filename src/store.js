@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import axios from 'axios'
 Vue.use(Vuex)
 
 export const createStore = () => {
 
 	return new Vuex.Store({
 		state: {
-			items: []
+			items: [],
+			post: null
 		},
 		actions: {
 			fetchUsers ({ commit }) {
@@ -20,11 +21,18 @@ export const createStore = () => {
 				}).then(res => {
 					commit('FETCH_USERS', res)
 				})
+			},
+			fetchPost ({ commit }) {
+				return axios.get("https://jsonplaceholder.typicode.com/posts/1")
+				          .then(response => console.log(response))
 			}
 		},
 		mutations: {
 			FETCH_USERS (state, payload) {
 				state.items = payload
+			},
+			SET_POST (state, { post }) {
+				state.post = post
 			}
 		}
 

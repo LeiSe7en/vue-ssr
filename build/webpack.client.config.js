@@ -7,7 +7,9 @@ module.exports = merge(baseConfig, {
   // 这里的entry如果不传对象，只传一个字符串作为path，那么会使用main作为chunk的名字
   // 如果使用对象，则对象的key作为chunk的名字
 
-	entry: './client-entry',
+	entry: {
+    cilent: './client-entry'
+  },
 	plugins: [
 		// 重要信息：这将 webpack 运行时分离到一个引导 chunk 中，
     // 以便可以在之后正确注入异步 chunk。
