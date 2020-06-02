@@ -1,12 +1,10 @@
 {
   "publicPath": "/dist/",
   "all": [
-    "cilent.js",
-    "manifest.js"
+    "main.js"
   ],
   "initial": [
-    "manifest.js",
-    "cilent.js"
+    "main.js"
   ],
   "async": [],
   "modules": {

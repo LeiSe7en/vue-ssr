@@ -2,6 +2,7 @@ const { createApp } = require('./createApp')
 export default (context) => {
 	return new Promise ((resolve, reject) => {
 		const { app, router, store } = createApp()
+
 		router.push(context.url)
 		router.onReady(() => {
 			const matchedComponents = router.getMatchedComponents()
@@ -10,10 +11,12 @@ export default (context) => {
 			}
 			console.log(matchedComponents)
 			Promise.all(matchedComponents.map(component => {
+				console.log(component)
 				if (component.asyncData) {
 					return component.asyncData({store, router})
 				}
 			})).then(res => {
+				console.log('server', app._uid)
 				resolve(app)
 			})
 		})

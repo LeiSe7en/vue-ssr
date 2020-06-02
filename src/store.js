@@ -23,8 +23,11 @@ export const createStore = () => {
 				})
 			},
 			fetchPost ({ commit }) {
-				return axios.get("https://jsonplaceholder.typicode.com/posts/1")
-				          .then(response => console.log(response))
+				return axios.$get("https://jsonplaceholder.typicode.com/posts/1")
+				          .then(response => commit('SET_POST', response.data))
+			},
+			fetchUsers ({ commit }) {
+				return axios.get("")
 			}
 		},
 		mutations: {
