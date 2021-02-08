@@ -1,83 +1,31 @@
+const { Module } = require("webpack");
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const path = require('path')
-const webpack = require('webpack')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const { VueLoaderPlugin } = require('vue-loader')
-
-const isProd = process.env.NODE_ENV === 'production'
-
 module.exports = {
-  devtool: isProd
-    ? false
-    : '#cheap-module-source-map',
+  mode: "development", // "production" | "development" | "none"
+  entry: path.join(__dirname, '../index.js'),
   output: {
     path: path.resolve(__dirname, '../dist'),
-    publicPath: '/dist/',
-    filename: '[name].js'
+    filename: "index.bundle.js"
   },
+  target: "web",
   resolve: {
     alias: {
-      '@': path.join(__dirname, '..', 'src')
-    }
+      "@": path.resolve(__dirname, '../src'),
+    },
+    extensions: ['.js', '.vue']
   },
   module: {
-    noParse: /es6-promise\.js$/, // avoid webpack shimming process
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          compilerOptions: {
-            preserveWhitespace: false
-          }
-        }
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 10000,
-          name: '[name].[ext]?[hash]'
-        }
-      },
-      {
-        test: /\.styl(us)?$/,
-        use: isProd
-          ? ExtractTextPlugin.extract({
-              use: [
-                {
-                  loader: 'css-loader',
-                  options: { minimize: true }
-                },
-                'stylus-loader'
-              ],
-              fallback: 'vue-style-loader'
-            })
-          : ['vue-style-loader', 'css-loader', 'stylus-loader']
-      },
+        use: [
+          'vue-loader'
+        ]
+      }
     ]
   },
-  performance: {
-    hints: false
-  },
-  plugins: isProd
-    ? [
-        new VueLoaderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-          compress: { warnings: false }
-        }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new ExtractTextPlugin({
-          filename: 'common.[chunkhash].css'
-        })
-      ]
-    : [
-        new VueLoaderPlugin(),
-        new FriendlyErrorsPlugin()
-      ]
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 }
