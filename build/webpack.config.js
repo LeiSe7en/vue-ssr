@@ -8,6 +8,10 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     filename: "index.bundle.js"
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist')
+  },
   target: "web",
   resolve: {
     alias: {
