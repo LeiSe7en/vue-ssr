@@ -9,6 +9,8 @@
 - [ ] 增加HTML-Webpack-Plugin自动生成HTML文件
 
 - [ ] 配置webpack完成devServer可以有一个开发的服务器Hot reload
+- [ ] 抽出webpack的manifest文件
+- [ ] webpack长缓存
 
 
 
