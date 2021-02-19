@@ -6,10 +6,11 @@
 
 - [x] 配置webpack完成渲染.vue文件
 
-- [ ] 增加HTML-Webpack-Plugin自动生成HTML文件
+- [x] 增加HTML-Webpack-Plugin自动生成HTML文件
 
-- [ ] 配置webpack完成devServer可以有一个开发的服务器Hot reload
-- [ ] 抽出webpack的manifest文件
+- [x] 配置webpack完成devServer可以有一个开发的服务器Hot reload
+- [x] 抽出webpack的manifest文件
+- [x] 抽出第三方依赖到vendeor
 - [ ] webpack长缓存
 
 
@@ -53,7 +54,7 @@ const app = new Vue ({
 
 因为import进来的HomePage其实就是个JS对象，需要传进createElement方法，进行渲染。还需要看看createElement方法做了什么。
 
-接下来需要引入Html-webpack-plugin来自动生成html模板放到dist文件夹下面
+_接下来_需要引入Html-webpack-plugin来自动生成html模板放到dist文件夹下面
 
 > [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#configuration)
 
@@ -72,3 +73,30 @@ new HtmlWebpackPlugin({
 可以通过访问devserver的`/webpack-dev-server`路径，看到目前内存中的文件结构
 eg: 
 > `http://localhost:8080/webpack-dev-server`
+
+
+------
+_配置dev server_
+因为webpack4 里面内置了devServer，这个会实现一部分HRM的功能，通过添加`hot: true`，可以实现热更新，也就是不用刷新页面，页面的状态会保存下来
+
+---
+
+*接下来*需要抽出一些不长变化的内容，打包成单独的文件，这样可以使浏览器的缓存发挥最大的功能。第一就是vendor第二是manifest。manifest文件就是webpack运行时需要的代码：
+
+配置：
+```
+optimization: { 
+  // 打包公共代码
+  splitChunks: {
+    chunks: 'all'
+  },
+  // 打包webpack的运行时代码
+  runtimeChunk: {
+    name: "manifest"
+  }
+},
+```
+参考的文章：
+> [guide-performance-optimization-webpack](https://blog.logrocket.com/guide-performance-optimization-webpack/)
+
+
