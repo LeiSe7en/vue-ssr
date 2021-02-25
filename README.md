@@ -70,3 +70,19 @@ new HtmlWebpackPlugin({
 可以通过访问devserver的`/webpack-dev-server`路径，看到目前内存中的文件结构
 eg: 
 > `http://localhost:8080/webpack-dev-server`
+
+加入dev server之后，发现已经可以随着更改代码动态编译，但是不知道这个是不是HRM(也就是不知道是否只是更新页面的展示，保留页面的状态，而不是刷新页面)，所以加一个修改页面状态的测试
+
+```JS
+// HomePage.vue
+<div>
+  I am Home page: 
+  {{message}} {{desc}}
+  <div>
+    <input type="text" v-model="desc"/>
+  </div>
+</div>
+```
+在输入框输入文本之后，能在message之后展示出来。但是如果我修改代码，页面上input输入的文本就消失了，*目测*是页面还是刷新了，没有保留状态.通过阅读文档，发现应该开启HRM才能 _局部替换模块_，所以在`webpack.config.js`的deveServer中加入`hot:true`, 测试发现的确保留了状态。关于HRM，参考资料如下：
+> [What exactly is Hot Module Replacement in Webpack?](https://stackoverflow.com/questions/24581873/what-exactly-is-hot-module-replacement-in-webpack)
+

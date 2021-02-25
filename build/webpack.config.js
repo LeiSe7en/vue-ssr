@@ -8,11 +8,15 @@ module.exports = {
   entry: path.join(__dirname, '../index.js'),
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: "index.bundle.js",
+    filename: "[name].[hash].js",
     publicPath: '/',
+  },
+  stats: {
+    modules: false // 不打印模块的详细信息，但是会保留最后的bundle的详细信息
   },
   devtool: 'inline-source-map',
   devServer: {
+    hot: true,
     contentBase: path.join(__dirname, 'dist')
   },
   target: "web",
@@ -20,7 +24,15 @@ module.exports = {
     alias: {
       "@": path.resolve(__dirname, '../src'),
     },
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue', '.json']
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    },
+    runtimeChunk: {
+      name: "manifest"
+    }
   },
   module: {
     rules: [
@@ -39,5 +51,5 @@ module.exports = {
       filename: 'index.html',
       title: "Nelson Vue SSR from Scratch"
     })
-  ]
+  ] 
 }
