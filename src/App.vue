@@ -1,6 +1,6 @@
 <template>
-  <div>
-    I am App sdsd ssss
+  <div class="app">
+    I am App sdsd ssss 
     <home-page></home-page>
   </div>
 </template>
@@ -11,3 +11,8 @@ export default {
   name: "app"
 }
 </script>
+<style>
+	.app {
+		color: green;
+	}
+</style>
