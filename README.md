@@ -12,8 +12,9 @@
 - [x] 抽出webpack的manifest文件
 - [x] 抽出第三方依赖到vendeor
 - [x] 每次编译之前清空dist文件夹(clean-webpack-plugin)
-- [ ] 将css单独抽出成为一个bundle
-- [ ] webpack长缓存
+- [x] 将css单独抽出成为一个bundle
+- [ ] 减小vendor的size
+- [] webpack长缓存
 - [ ] 服务器渲染首页
   - [ ] 服务器渲染中的fetch以及asyncData的实现
 - [ ] 服务器渲染 + vue router
@@ -272,9 +273,52 @@ vendors~main.a7563996ff47501b2974.js
   ]
 
 ```
-打包之后，的确是使用的hash，但是因为用的是chunkhash，所以即便我修改了css的内容，业务逻辑的bundle以及css的bundle的hash值都改变了。有没有办法在这种情况下只改变css这个bundle的hash值呢？(因为我的业务逻辑是没有改变的)。
+打包之后，的确是使用的hash，但是因为用的是chunkhash，所以即便我只修改了css的内容，业务逻辑的bundle以及css的bundle的hash值都改变了。有没有办法在这种情况下只改变css这个bundle的hash值呢？(因为我的业务逻辑是没有改变的)TODO。
+
+然后为了尝试上面的TODO，我尝试使用contenthash来代替chunkhash，可是结果还是两个都一起改变了。还是得找找这种情况的原因。
+
+在build的时候，发现vendor的size引发了一个warning：
+
+> WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: vendors~main.7d47ec9abfd46646cce1.js (571 KiB)
+
+这个vendor的大小超过了vue的推荐大小，所以下一步我打算找个方法能reduce这个vendor的size。
 
 
+既然想要减小vendor的size，首先就要先分析一下为何这个vendor这么大，那就需要一个webpack的插件：`webpack-bundle-analyzer`.
+
+引入这个插件不难，之前我也用过很多次，但是这次我想根据我运行的npm 脚本的不同，决定是否引入这个插件。毕竟每次build都会打开一个analyzer的页面也很烦躁。因为我的webpack config是使用function返回对象的方式(可以参考代码)。所以通过获取env的方式，判断是不是要加载这个plugin。但是如何动态的添加plugin呢？这里我发现一个黑科技（我自己这么觉得）
+
+```JS
+// webpack.config.js
+// ....
+plugins: [
+  new VueLoaderPlugin(),
+  new CleanWebpackPlugin(),
+  new MiniCssExtractPlugin({
+    filename: 'style.[contenthash].css'
+  }),
+  env.analyze ? new WebpackBundleAnalyzer() : false,
+  new HtmlWebpackPlugin({
+    template: path.join(__dirname, '../index.html'),
+    filename: 'index.html',
+    title: "Nelson Vue SSR from Scratch"
+  })
+].filter(Boolean)
+```
+这里就会把false占位的plugin给剔除。
+
+
+通过analyzer发现，其实就是vue的依赖占用很大的空间(也的确我没有用到其他的第三方依赖)，并且我发现我用的就是vue的生产版本，所以这部分几乎是无法避免的，解决办法有两个：
+1. 把vue提到externals, 作为外部资源加载
+2. 开启gzip压缩
+
+对于第一种方法，其实我觉得对于我这个项目没什么必要，因为的确bundle少了，但是多了一个http请求
+第二种的话，因为其实nginx会提供gzip压缩的功能，只不过是把这个压缩放在 _编译阶段_ 还是 _请求阶段_ 而已。需要webpack的`compression-webpack-plugin`进行压缩
+
+
+> [How to serve webpack gzipped file in production using nginx.](https://medium.com/@selvaganesh93/how-to-serve-webpack-gzipped-file-in-production-using-nginx-692eadbb9f1c)
 
 
 
