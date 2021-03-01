@@ -221,7 +221,7 @@ vendors~main.a7563996ff47501b2974.js
 ```
 解决了这个问题之后突然想到还不知道css-loader以及style-loader是怎么把样式添加进来的。所以看了一下运行之后的页面，发现原来style-loader是把样式都动态的添加到了head标签里面。并且不同的组件会单独创建一个style标签.
 
-*再深一步*, 如果给组件的样式加上scoped,会发生什么？
+**再深一步**, 如果给组件的样式加上scoped,会发生什么？
 编译之后，得到转换结果是
 ```
 <style>
@@ -238,7 +238,8 @@ vendors~main.a7563996ff47501b2974.js
 
 鉴于style的工作方式，那么当组件很多的时候，岂不是head里面会有一大堆的样式？？？所以就想到了把css单独抽出来成为一个bundle，这样还可以尝试缓存这个css bundle，还能有效减少html的size，美滋滋。
 
-需要使用的工具是'mini-css-extract-plugin',这个插件需要配合他的内置的loader一起使用。
+需要使用的工具是'mini-css-extract-plugin', 这个插件需要配合他的内置的loader一起使用。
+(但是在开发环境中使用这个插件会导致css的HRM失去效果，需要手动刷新，所以最好还是分开生产和开发的webpack配置。)
 
 修改配置：
 ```JS
@@ -276,6 +277,8 @@ vendors~main.a7563996ff47501b2974.js
 打包之后，的确是使用的hash，但是因为用的是chunkhash，所以即便我只修改了css的内容，业务逻辑的bundle以及css的bundle的hash值都改变了。有没有办法在这种情况下只改变css这个bundle的hash值呢？(因为我的业务逻辑是没有改变的)TODO。
 
 然后为了尝试上面的TODO，我尝试使用contenthash来代替chunkhash，可是结果还是两个都一起改变了。还是得找找这种情况的原因。
+
+------
 
 在build的时候，发现vendor的size引发了一个warning：
 

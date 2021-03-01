@@ -7,7 +7,7 @@
     <input type="checkbox" v-model="show"/>
     <div class="greeting-message">
       I am Home page: 
-      {{message}} {{desc}} dsdsdsdssd
+      {{message}} {{desc}}
     </div>
   </div>
 </template>
@@ -26,12 +26,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .greeting-message {
-    color: red;
-    font-size: 30px;
-    font-weight: 700;
-    background-color: yellow;
-    line-height: 2;
-  }
-</style>

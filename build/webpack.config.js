@@ -53,26 +53,25 @@ module.exports = (env, options) => {
             {
               loader: 'vue-style-loader'
             },
-            {
+            env.production ? {
               loader: MiniCssExtractPlugin.loader
-            },
+            } : false,
             {
               loader: 'css-loader',
               options: {
                 esModule: false
               }
             }
-
-          ]
+          ].filter(Boolean)
         }
       ]
     },
     plugins: [
       new VueLoaderPlugin(),
       new CleanWebpackPlugin(),
-      new MiniCssExtractPlugin({
+      env.production ? new MiniCssExtractPlugin({
         filename: 'style.[contenthash].css'
-      }),
+      }) : false,
       new CompressionPlugin(),
       env.analyze ? new BundleAnalyzerPlugin() : false,
       new HtmlWebpackPlugin({
