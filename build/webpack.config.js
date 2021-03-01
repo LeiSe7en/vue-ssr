@@ -69,7 +69,7 @@ module.exports = (env, options) => {
       new VueLoaderPlugin(),
       new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].[chunkhash].css'
+        filename: 'style.[contenthash].css'
       }),
       new HtmlWebpackPlugin({
         template: path.join(__dirname, '../index.html'),

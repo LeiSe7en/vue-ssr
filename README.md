@@ -164,7 +164,7 @@ vendors~main.a7563996ff47501b2974.js
 ```
 可以看到，我修改了业务代码，但是webpack的runtime chunk和懒加载的组件的hash以及第三方依赖的hash都没有改变。接下来需要考虑如果把css单独抽出成为一个文件的话，这个hash有没有啥变化.
 
-首先需要先让webpack支持在vue的单文件中使用css，本来以为这个会在vueloader中已经存在了，就是不用再做单独的设置，但是发现不行。在vue文件中添加style标签之后，编译的时候直接报错了，需要特定的loader来处理这个css文件(*TODO* 为啥在vue-loader里面会报错，难道vue-loader里面把这个vue文件的css抽出来生成css文件了？)
+首先需要先让webpack支持在vue的单文件中使用css，本来以为这个会在vueloader中已经存在了，就是不用再做单独的设置，但是发现不行。在vue文件中添加style标签之后，编译的时候直接报错了，需要特定的loader来处理这个css文件(~~*TODO* 为啥在vue-loader里面会报错，难道vue-loader里面把这个vue文件的css抽出来生成css文件了?~~)
 
 -----
 回答上面的TODO:
@@ -272,6 +272,8 @@ vendors~main.a7563996ff47501b2974.js
   ]
 
 ```
+打包之后，的确是使用的hash，但是因为用的是chunkhash，所以即便我修改了css的内容，业务逻辑的bundle以及css的bundle的hash值都改变了。有没有办法在这种情况下只改变css这个bundle的hash值呢？(因为我的业务逻辑是没有改变的)。
+
 
 
 

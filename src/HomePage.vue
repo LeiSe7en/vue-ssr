@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-page">
     <div>
       <input type="text" v-model="desc"/>
     </div>
@@ -31,5 +31,7 @@ export default {
     color: red;
     font-size: 30px;
     font-weight: 700;
+    background-color: yellow;
+    line-height: 2;
   }
 </style>
