@@ -14,7 +14,7 @@
 - [x] 每次编译之前清空dist文件夹(clean-webpack-plugin)
 - [x] 将css单独抽出成为一个bundle
 - [ ] 减小vendor的size
-- [] webpack长缓存
+- [ ] webpack长缓存
 - [ ] 服务器渲染首页
   - [ ] 服务器渲染中的fetch以及asyncData的实现
 - [ ] 服务器渲染 + vue router
@@ -315,7 +315,7 @@ plugins: [
 2. 开启gzip压缩
 
 对于第一种方法，其实我觉得对于我这个项目没什么必要，因为的确bundle少了，但是多了一个http请求
-第二种的话，因为其实nginx会提供gzip压缩的功能，只不过是把这个压缩放在 _编译阶段_ 还是 _请求阶段_ 而已。需要webpack的`compression-webpack-plugin`进行压缩
+第二种的话，因为其实nginx会提供gzip压缩的功能，只不过是把这个压缩放在 **编译阶段** 还是 **请求阶段** 而已。需要webpack的`compression-webpack-plugin`进行压缩
 
 
 > [How to serve webpack gzipped file in production using nginx.](https://medium.com/@selvaganesh93/how-to-serve-webpack-gzipped-file-in-production-using-nginx-692eadbb9f1c)
