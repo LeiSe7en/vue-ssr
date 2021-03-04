@@ -1,4 +1,4 @@
-# vue-ssr from scratch
+# Vue from scratch
 
 ### TODO List
 
@@ -15,11 +15,8 @@
 - [x] 将css单独抽出成为一个bundle
 - [ ] 减小vendor的size
 - [ ] webpack长缓存
-- [ ] 服务器渲染首页
-  - [ ] 服务器渲染中的fetch以及asyncData的实现
-- [ ] 服务器渲染 + vue router
-- [ ] 服务器渲染指定的路由页面
-- [ ] 服务器渲染 + vuex
+- [ ] Vue router
+- [ ] Vuex
 
 
 ### TODO List实现过程记录：
