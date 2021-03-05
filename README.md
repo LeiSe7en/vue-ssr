@@ -313,6 +313,7 @@ plugins: [
 通过analyzer发现，其实就是vue的依赖占用很大的空间(也的确我没有用到其他的第三方依赖)，并且我发现我用的就是vue的生产版本，所以这部分几乎是无法避免的，解决办法有两个：
 1. 把vue提到externals, 作为外部资源加载
 2. 开启gzip压缩
+3. uglify代码(TODO)
 
 对于第一种方法，其实我觉得对于我这个项目没什么必要，因为的确bundle少了，但是多了一个http请求
 第二种的话，因为其实nginx会提供gzip压缩的功能，只不过是把这个压缩放在 **编译阶段** 还是 **请求阶段** 而已。需要webpack的`compression-webpack-plugin`进行压缩
