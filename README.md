@@ -3,17 +3,14 @@
 ### TODO List
 
 - [x] 配置webpack完成渲染一个简单的vue渲染的页面。简单的渲染出来一个Hello world.
-
 - [x] 配置webpack完成渲染.vue文件
-
 - [x] 增加HTML-Webpack-Plugin自动生成HTML文件
-
 - [x] 配置webpack完成devServer可以有一个开发的服务器Hot reload
 - [x] 抽出webpack的manifest文件
 - [x] 抽出第三方依赖到vendeor
 - [x] 每次编译之前清空dist文件夹(clean-webpack-plugin)
 - [x] 将css单独抽出成为一个bundle
-- [ ] 减小vendor的size
+- [ ] 减小bundle的size
 - [ ] webpack长缓存
 - [ ] Vue router
 - [ ] Vuex
@@ -321,7 +318,60 @@ plugins: [
 
 > [How to serve webpack gzipped file in production using nginx.](https://medium.com/@selvaganesh93/how-to-serve-webpack-gzipped-file-in-production-using-nginx-692eadbb9f1c)
 
+通过gzip的确可以实现代码的体积减少，但是如果通过代码的压缩是不是也可以显著减少bundle的体积呢？
+添加`uglifyjs-webpack-plugin`这个插件，可以实现对于代码的压缩。首先先说结果吧：
 
+**为了控制变量，下面的结果是删除gzip，只保留uglify的结果**
+
+未使用uglify打包结果：
+
+```JS
+main.f2d94996039e32617226.js   25.8 KiB       main
+manifest.b00a95f1612486aed9b9.js   20.4 KiB   manifest
+show-hide.fc1974b61a6c1af770de.js   1.43 KiB  show-hide
+style.d308c9beb389066489ee.css   1.52 KiB     main
+vendors~main.7d47ec9abfd46646cce1.js    231 KiB  vendors~main
+```
+
+使用uglify打包结果：
+
+```JS
+main.32861917296df7c0af56.js   2.42 KiB      main
+manifest.a7262f792b6f7b0d07c3.js   2.48 KiB  manifest
+show-hide.9115f0a51a7768d4f81d.js  350 bytes  show-hide
+style.d308c9beb389066489ee.css   1.52 KiB      main
+vendors~main.97f2aa19c65f986b56bb.js   70.2 KiB vendors~main
+```
+
+可以看到结果很显著。下面就要看看uglify这个插件做了什么。
+其实有很多的用于压缩的第三方库，比如:`Uglify`, `Babel-minify`, 以及`Terser`. 关于这些压缩代码的第三方库会做什么，主要是删除代码中的所有不必须的内容.
+
+例如：
+  1. Whitespace characters
+  2. Newline characters
+  3. Comments
+  4. Block delimiters
+
+下面看一个例子，理解一下如何压缩JS代码：
+
+```JS
+// 原代码
+var array = [];
+for (var i = 0; i < 20; i++) {
+  array[i] = i;
+}
+```
+压缩之后:
+
+```JS
+for(var a=[i=0];++i<20;a[i]=i);
+```
+> 首先，我们减少数组变量的名字(array -> a), 然后我们将数组变量的初始化挪到for循环的初始化代码中。我们同时将数组的赋值放到for循环的代码块中。
+这样我们就显著的减少了代码的数量以及文件的大小
+
+> [Uglify vs. Babel-minify vs. Terser: A mini battle royale](https://blog.logrocket.com/uglify-vs-babel-minify-vs-terser-a-mini-battle-royale/)
+
+在这个项目中，将Uglify替换为Terser-webpack-plugin之后，压缩的结果显示，Uglify与Terser相差不大。
 
 
 

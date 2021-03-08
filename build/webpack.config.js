@@ -3,9 +3,12 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CompressionPlugin = require('compression-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+// const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 module.exports = (env, options) => {
   return {
     mode: env.development ? 'development' : 'production', // "production" | "development" | "none"
@@ -13,7 +16,7 @@ module.exports = (env, options) => {
     output: {
       path: path.resolve(__dirname, '../dist'),
       filename: env.development ? '[name].[hash].js' : '[name].[chunkhash].js',
-      publicPath: '/',
+      publicPath: './',
     },
     stats: {
       modules: false, // 不打印模块的详细信息，但是会保留最后的bundle的详细信息
@@ -37,7 +40,8 @@ module.exports = (env, options) => {
       },
       runtimeChunk: {
         name: "manifest"
-      }
+      },
+      minimizer: [new UglifyJsPlugin({parallel: true}), new CssMinimizerPlugin()]
     },
     module: {
       rules: [
@@ -72,7 +76,7 @@ module.exports = (env, options) => {
       env.production ? new MiniCssExtractPlugin({
         filename: 'style.[contenthash].css'
       }) : false,
-      new CompressionPlugin(),
+      // new CompressionPlugin(),
       env.analyze ? new BundleAnalyzerPlugin() : false,
       new HtmlWebpackPlugin({
         template: path.join(__dirname, '../index.html'),
